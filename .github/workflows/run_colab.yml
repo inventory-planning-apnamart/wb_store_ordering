@@ -1,0 +1,25 @@
+name: Run Colab Daily
+
+on:
+  schedule:
+    - cron: '30 0 * * *'  # Runs daily at 6:00 AM IST (UTC +5:30)
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: |
+          pip install papermill jupyter nbconvert
+
+      - name: Run notebook with Papermill
+        run: |
+          papermill wb-store-ordering.ipynb output.ipynb
