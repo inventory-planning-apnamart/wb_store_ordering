@@ -2,11 +2,12 @@ name: Run Colab Daily
 
 on:
   schedule:
-    - cron: '30 0 * * *'  # 6:00 AM IST
+    - cron: '30 0 * * *'  # Daily 6:00 AM IST (UTC+5:30)
 
 jobs:
   run-notebook:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -15,16 +16,12 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          cache: 'pip'
-
-      - name: Debug Python Version
-        run: python --version
 
       - name: Install dependencies
         run: |
-          pip install papermill jupyter gspread oauth2client google-auth google-api-python-client
+          pip install papermill jupyter gspread pandas numpy google-auth google-auth-oauthlib google-api-python-client
 
-      - name: Set up credentials
+      - name: Write service account credentials
         env:
           GSPREAD_CREDENTIALS: ${{ secrets.GSPREAD_CREDENTIALS }}
         run: |
@@ -32,4 +29,4 @@ jobs:
 
       - name: Run notebook with Papermill
         run: |
-          papermill wb-store-ordering.ipynb output.ipynb
+          papermill WB_Store_Ordering.ipynb output.ipynb
