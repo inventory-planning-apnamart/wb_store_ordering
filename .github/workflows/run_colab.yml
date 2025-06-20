@@ -8,6 +8,8 @@ on:
 jobs:
   run-notebook:
     runs-on: ubuntu-latest
+    env:  # ✅ Set env at job level so all steps get it
+      GSPREAD_CREDENTIALS: ${{ secrets.GSPREAD_CREDENTIALS }}
 
     steps:
       - name: 📦 Checkout Repository
@@ -26,8 +28,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: 🔐 Set up Google Service Account Credentials
-        env:
-          GSPREAD_CREDENTIALS: ${{ secrets.GSPREAD_CREDENTIALS }}
         run: |
           echo "$GSPREAD_CREDENTIALS" > credentials.json
 
