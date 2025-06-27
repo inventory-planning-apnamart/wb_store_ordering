@@ -33,4 +33,4 @@ jobs:
 
       - name: 📊 Run Notebook with Papermill
         run: |
-          papermill wb-store-ordering.ipynb output.ipynb
+          papermill wb_store_ordering.ipynb output.ipynb
